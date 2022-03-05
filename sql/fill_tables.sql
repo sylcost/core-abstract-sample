@@ -1,0 +1,12 @@
+INSERT INTO SHOE (shoe_id, color, size, quantity) values (1, 'BLACK', 40, 10);
+INSERT INTO SHOE (shoe_id, color, size, quantity) values (2, 'BLACK', 41, 11);
+INSERT INTO SHOE (shoe_id, color, size, quantity) values (3, 'BLACK', 42, 12);
+INSERT INTO SHOE (shoe_id, color, size, quantity) values (4, 'BLACK', 43, 13);
+INSERT INTO SHOE (shoe_id, color, size, quantity) values (5, 'BLUE', 40, 20);
+INSERT INTO SHOE (shoe_id, color, size, quantity) values (6, 'BLUE', 41, 21);
+INSERT INTO SHOE (shoe_id, color, size, quantity) values (7, 'BLUE', 42, 22);
+INSERT INTO SHOE (shoe_id, color, size, quantity) values (8, 'BLUE', 43, 23);
+INSERT INTO SHOE (shoe_id, color, size, quantity) values (9, 'RED', 40, 5);
+INSERT INTO SHOE (shoe_id, color, size, quantity) values (10, 'RED', 41, 6);
+INSERT INTO SHOE (shoe_id, color, size, quantity) values (11, 'RED', 42, 7);
+INSERT INTO SHOE (shoe_id, color, size, quantity) values (12, 'RED', 43, 8);
