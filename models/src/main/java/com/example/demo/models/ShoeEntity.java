@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+import java.math.BigInteger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -24,7 +25,7 @@ public class ShoeEntity {
 	@Enumerated(EnumType.STRING)
 	private ShoeFilter.Color color;
 
-	private Long size;
+	private BigInteger size;
 
 	private Long quantity;
 }

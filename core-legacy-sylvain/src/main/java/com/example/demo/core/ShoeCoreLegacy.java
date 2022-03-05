@@ -1,5 +1,6 @@
 package com.example.demo.core;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import com.example.demo.dto.in.ShoeFilter;
@@ -16,7 +17,7 @@ public class ShoeCoreLegacy extends AbstractShoeCore {
                 .shoes(List.of(Shoe.builder()
                                    .name("Legacy shoe")
                                    .color(Color.BLUE)
-                                   .size(1L)
+                                   .size(BigInteger.ONE)
                                    .build()))
                 .build();
   }
