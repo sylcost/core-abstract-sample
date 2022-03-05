@@ -24,12 +24,12 @@
     </dependency>
     <dependency>
       <groupId>com.example</groupId>
-      <artifactId>core-legacy</artifactId>
+      <artifactId>core-legacy-sylvain</artifactId>
       <version>${parent.version}</version>
     </dependency>
     <dependency>
       <groupId>com.example</groupId>
-      <artifactId>core-new</artifactId>
+      <artifactId>core-new-sylvain</artifactId>
       <version>${parent.version}</version>
     </dependency>
   </dependencies>

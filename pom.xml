@@ -9,8 +9,9 @@
     <module>controller</module>
     <module>dto</module>
     <module>core</module>
-    <module>core-legacy</module>
-    <module>core-new</module>
+    <module>core-legacy-sylvain</module>
+    <module>core-new-sylvain</module>
+    <module>models</module>
   </modules>
 
   <parent>
