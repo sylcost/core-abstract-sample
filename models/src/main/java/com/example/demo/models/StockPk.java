@@ -7,8 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ShopShoeKey implements Serializable
+public class StockPk implements Serializable
 {
-	private Long shopId;
-	private Long shoeId;
+	private Long shop;
+	private Long shoe;
 }

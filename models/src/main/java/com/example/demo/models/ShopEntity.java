@@ -1,18 +1,24 @@
 package com.example.demo.models;
 
-import javax.persistence.Column;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
-@Table(name = "shop")
+@Table(name="shop")
 public class ShopEntity
 {
 	@Id
-	@Column(name = "shop_id")
 	private Long id;
-
-	@Column(name = "shop_name")
 	private String name;
+
+	@OneToMany(mappedBy = "shop")
+	private List<StockEntity> stocks;
 }

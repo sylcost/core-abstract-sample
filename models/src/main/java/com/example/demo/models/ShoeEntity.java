@@ -1,16 +1,18 @@
 package com.example.demo.models;
 
 import java.math.BigInteger;
-import javax.persistence.Column;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
-import com.example.demo.dto.in.ShoeFilter;
+import org.springframework.context.annotation.Lazy;
+import com.example.demo.dto.enums.Color;
 
 @Getter
 @Setter
@@ -19,12 +21,17 @@ import com.example.demo.dto.in.ShoeFilter;
 public class ShoeEntity {
 
 	@Id
-	@Column(name = "shoe_id")
 	private Long id;
 
+	private String name;
+
 	@Enumerated(EnumType.STRING)
-	private ShoeFilter.Color color;
+	private Color color;
 
 	private BigInteger size;
+
+	@Lazy
+	@OneToMany(mappedBy = "shoe")
+	private List<StockEntity> stocks;
 
 }
