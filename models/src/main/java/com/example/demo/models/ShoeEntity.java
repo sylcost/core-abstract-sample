@@ -27,5 +27,4 @@ public class ShoeEntity {
 
 	private BigInteger size;
 
-	private Long quantity;
 }
