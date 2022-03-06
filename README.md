@@ -3,7 +3,10 @@
 2. The Shoe DTO have been slightly modified :
    1. Add an id attribute, useful for patching the stock.
    2. Change the location of the Color enum.
-3. Use of docker to spawn a postgres db : scripts are in ./sql folder
+3. Use of docker to spawn a postgres db : init scripts are in ./sql folder
+   1. DB can be accessed at jdbc:postgresql://localhost:5432/
+   2. username : postgres
+   3. password : postgres
 4. The PATCH for stock replace all the stock of the shop.
 5. Tests can be run with `mvn clean test`
 
