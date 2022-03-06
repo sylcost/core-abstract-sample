@@ -1,10 +1,17 @@
 package com.example.demo.core;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.dto.enums.StockState;
+import com.example.demo.dto.exceptions.TooMuchShoesException;
 import com.example.demo.dto.in.StocksUpdate;
 import com.example.demo.dto.out.ShoeStock;
 import com.example.demo.dto.out.Stock;
+import com.example.demo.models.ShoeEntity;
+import com.example.demo.models.ShopEntity;
 import com.example.demo.models.StockEntity;
 import com.example.demo.repository.ShoeRepository;
 import com.example.demo.repository.ShopRepository;
@@ -51,21 +58,30 @@ public class StockCoreImpl
    */
   @Override
   public void patch(final Long shopId, final StocksUpdate stocksUpdate)
+      throws TooMuchShoesException
   {
-    shopRepository.findById(shopId).ifPresent(shopEntity -> {
-      stocksUpdate.getStocks().forEach(stockUpdate -> shoeRepository.findById(stockUpdate.getShoeId()).ifPresent(shoeEntity -> {
-        StockEntity stockEntity = stockRepository.findFirstByShoeAndShop(shoeEntity, shopEntity);
-        if (stockEntity != null) {
+    Optional<ShopEntity> shopEntityOptional = shopRepository.findById(shopId);
+
+    if (shopEntityOptional.isPresent()) {
+      Long totalQuantity = stocksUpdate.getStocks().stream().map(StocksUpdate.StockUpdate::getQuantity).reduce(0L, Long::sum);
+      if (totalQuantity > 30) {
+        throw new TooMuchShoesException("Too much shoes for Shop " + shopId);
+      }
+      List<StockEntity> newStock = stocksUpdate.getStocks().stream().map(stockUpdate -> {
+        Optional<ShoeEntity> shoeEntityOptional = shoeRepository.findById(stockUpdate.getShoeId());
+        if (shoeEntityOptional.isPresent()) {
+          StockEntity stockEntity = new StockEntity();
+          stockEntity.setShop(shopEntityOptional.get());
+          stockEntity.setShoe(shoeEntityOptional.get());
           stockEntity.setQuantity(stockUpdate.getQuantity());
-          stockRepository.save(stockEntity);
+          return stockEntity;
         } else {
-          StockEntity newStock = new StockEntity();
-          newStock.setShop(shopEntity);
-          newStock.setShoe(shoeEntity);
-          newStock.setQuantity(stockUpdate.getQuantity());
-          stockRepository.save(newStock);
+          return null;
         }
-      }));
-    });
+      }).filter(Objects::nonNull).toList();
+      stockRepository.deleteAllByShop(shopEntityOptional.get());
+      stockRepository.saveAll(newStock);
+    }
+
   }
 }
