@@ -1,7 +1,7 @@
 # Explanations
 1. 3 entities : Shoe, Shop and Stock.
 2. The Shoe DTO have been slightly modified :
-   1. Include an id attribute used in the PATCH stock method.
+   1. Add an id attribute, useful for patching the stock.
    2. Change the location of the Color enum.
 3. Use of docker to spawn a postgres db : scripts are in ./sql folder
 4. The PATCH for stock replace all the stock of the shop.
@@ -13,9 +13,18 @@
 3. Start postgres db `docker-compose up`
 4. Start application
 5. Make a GET request 
-   1. Shop : `curl --location --request GET 'http://localhost:8080/shop/search?name=DECATHLON NANTES' --header 'version: 1'`
-   2. shoes get
-   3. Stock : `curl --location --request GET 'http://localhost:8080/stock/shop/1' --header 'version: 1'`
+   1. Shop : 
+   ```
+   curl --location --request GET 'http://localhost:8080/shop/search?name=DECATHLON NANTES' --header 'version: 1'
+   ```
+   2. Shoe : 
+   ```
+   curl --location --request GET 'http://localhost:8080/shoes/search?color=BLACK' --header 'version: 2'
+   ```
+   3. Stock : 
+   ```
+   curl --location --request GET 'http://localhost:8080/stock/shop/1' --header 'version: 1'
+   ```
 6. Make a PATCH request
    1. Stock : 
    ```
