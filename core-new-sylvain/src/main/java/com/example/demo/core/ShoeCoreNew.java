@@ -24,7 +24,11 @@ public class ShoeCoreNew extends AbstractShoeCore {
   public Shoes search(final ShoeFilter filter) {
 
     List<ShoeEntity> l = shoeRepository.getAllByColorAndSize(filter.getColor(), filter.getSize());
-    List<Shoe> result = l.stream().map(shoeEntity -> Shoe.builder().color(shoeEntity.getColor()).size(shoeEntity.getSize()).name("new shoe").build()).toList();
+    List<Shoe> result = l.stream().map(shoeEntity -> Shoe.builder()
+                                                         .id(shoeEntity.getId())
+                                                         .color(shoeEntity.getColor())
+                                                         .size(shoeEntity.getSize())
+                                                         .name(shoeEntity.getName()).build()).toList();
 
     return Shoes.builder()
                 .shoes(result)

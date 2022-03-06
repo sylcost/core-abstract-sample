@@ -6,13 +6,13 @@ import javax.annotation.PostConstruct;
 import lombok.val;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.example.demo.facade.ShopFacade;
+import com.example.demo.facade.StockFacade;
 
-public abstract class AbstractShopCore
-	implements ShopCore {
+public abstract class AbstractStockCore
+	implements StockCore {
 
   @Autowired
-  private ShopFacade shopFacade;
+  private StockFacade stockFacade;
 
   @PostConstruct
   void init(){
@@ -21,7 +21,7 @@ public abstract class AbstractShopCore
                           .map(Implementation::version)
                           .orElseThrow(() -> new FatalBeanException("AbstractShopCore implementation should be annotated with @Implementation"));
 
-    shopFacade.register(version, this);
-
+    stockFacade.register(version, this);
   }
+
 }

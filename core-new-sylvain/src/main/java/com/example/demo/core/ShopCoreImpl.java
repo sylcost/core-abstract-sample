@@ -1,13 +1,11 @@
 package com.example.demo.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import com.example.demo.dto.enums.StockState;
 import com.example.demo.dto.in.ShopFilter;
-import com.example.demo.dto.out.ShoeStock;
 import com.example.demo.dto.out.Shop;
 import com.example.demo.models.ShopEntity;
-import com.example.demo.models.StockEntity;
 import com.example.demo.repository.ShopRepository;
+import com.example.demo.repository.StockRepository;
 
 @Implementation(version = 1)
 public class ShopCoreImpl
@@ -16,7 +14,7 @@ public class ShopCoreImpl
   private final ShopRepository shopRepository;
 
   @Autowired
-  public ShopCoreImpl(final ShopRepository shopRepository) {
+  public ShopCoreImpl(final ShopRepository shopRepository, final StockRepository stockRepository) {
     this.shopRepository = shopRepository;
   }
 
@@ -24,19 +22,13 @@ public class ShopCoreImpl
   public Shop search(final ShopFilter filter) {
     ShopEntity shop = shopRepository.findFirstByName(filter.getName());
     if (shop != null) {
-      Long totalQuantity = shop.getStocks().stream().map(StockEntity::getQuantity).reduce(0L, Long::sum);
       return Shop.builder()
+                 .id(shop.getId())
                  .name(shop.getName())
-                 .state(StockState.fromQuantity(totalQuantity).name())
-                 .shoes(shop.getStocks().stream().map(stockEntity -> ShoeStock.builder()
-                                                                               .size(stockEntity.getShoe().getSize())
-                                                                               .color(stockEntity.getShoe().getColor())
-                                                                               .quantity(stockEntity.getQuantity())
-                                                                               .build())
-                            .toList())
                  .build();
     }
 
-    return null;
+    return Shop.builder().build();
   }
+
 }

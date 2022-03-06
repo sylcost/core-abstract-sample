@@ -22,5 +22,4 @@ public class ShopController
   public ResponseEntity<Shop> search(@RequestHeader final Integer version, final ShopFilter filter) {
     return ResponseEntity.ok(shopFacade.get(version).search(filter));
   }
-
 }

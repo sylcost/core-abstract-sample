@@ -13,6 +13,8 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 @JsonDeserialize(builder = ShoeStock.ShoeStockBuilder.class)
 public class ShoeStock
 {
+	Long id;
+	String name;
 	Color color;
 	BigInteger size;
 	Long quantity;
