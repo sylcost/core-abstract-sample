@@ -5,6 +5,7 @@
    2. Change the location of the Color enum.
 3. Use of docker to spawn a postgres db : scripts are in ./sql folder
 4. The PATCH for stock replace all the stock of the shop.
+5. Tests can be run with `mvn clean test`
 
 # How to
 
