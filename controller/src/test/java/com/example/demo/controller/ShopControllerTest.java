@@ -24,21 +24,21 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ContextConfiguration(initializers = {ShopControllerTest.Initializer.class})
+@ContextConfiguration(initializers = { ShopControllerTest.Initializer.class})
 @AutoConfigureMockMvc
 @Testcontainers
 @Sql(scripts = {"file:src/test/resources/create_tables.sql","file:src/test/resources/fill_tables.sql"})
-public class ShopControllerTest {
+public class ShopControllerTest
+{
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@ClassRule
-	public static PostgreSQLContainer postgreSQLContainer = (PostgreSQLContainer) new PostgreSQLContainer("postgres:14.2")
+	public static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:14.2")
 		.withDatabaseName("postgres")
 		.withUsername("postgres")
 		.withPassword("postgres");
-		//.withFileSystemBind("../../../../../resources",  "/docker-entrypoint-initdb.d", BindMode.READ_ONLY);
 
 	static class Initializer
 		implements ApplicationContextInitializer<ConfigurableApplicationContext>
