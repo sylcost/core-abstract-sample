@@ -1,5 +1,17 @@
 # Explanations
 1. 3 entities : Shoe, Shop and Stock.
+   1. Shoe
+      1. id
+      2. name
+      3. color
+      4. size
+   2. Shop
+      1. id
+      2. name
+   3. Stock
+      1. shop_id
+      2. shoe_id
+      3. quantity
 2. The Shoe DTO have been slightly modified :
    1. Add an id attribute, useful for patching the stock.
    2. Change the location of the Color enum.
@@ -33,7 +45,7 @@ mvn clean package && java -jar controller/target/controller-1.0.jar
    curl --location --request GET 'http://localhost:8080/stock/shop/1' --header 'version: 1'
    ```
 6. Make a PATCH request
-   1. Stock (replace all the stock, throw Exception if quantity > 30) : 
+   1. Stock (replace all the stock, throw Exception if quantity > 30) : `/stock/shop/{shopId}`
    ```
    curl --location --request PATCH 'http://localhost:8080/stock/shop/1/full' \
       --header 'version: 1' \
