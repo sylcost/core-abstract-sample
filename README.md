@@ -11,8 +11,11 @@
 1. Install docker-compose https://docs.docker.com/compose/install/
 2. Make sure the SQL files are readable by docker-compose : `chmod 664 sql/*`
 3. Start postgres db `docker-compose up`
-4. Start application
-5. Make a GET request 
+4. Start application 
+```
+mvn clean package && java -jar controller/target/controller-1.0.jar
+```
+6. Make a GET request 
    1. Shop : 
    ```
    curl --location --request GET 'http://localhost:8080/shop/search?name=DECATHLON NANTES' --header 'version: 1'
@@ -25,7 +28,7 @@
    ```
    curl --location --request GET 'http://localhost:8080/stock/shop/1' --header 'version: 1'
    ```
-6. Make a PATCH request
+7. Make a PATCH request
    1. Stock (replace all the stock, throw Exception if quantity > 30) : 
    ```
    curl --location --request PATCH 'http://localhost:8080/stock/shop/1/full' \
