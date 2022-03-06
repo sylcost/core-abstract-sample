@@ -9,30 +9,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Arrays;
 
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import com.example.demo.dto.exceptions.TooMuchShoesException;
 import com.example.demo.dto.in.StocksUpdate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
-@ContextConfiguration(initializers = { StockControllerTest.Initializer.class})
 @AutoConfigureMockMvc
 @Testcontainers
 @Sql(scripts = {"file:src/test/resources/create_tables.sql","file:src/test/resources/fill_tables.sql"})
@@ -42,22 +36,16 @@ public class StockControllerTest
 	@Autowired
 	private MockMvc mockMvc;
 
-	@ClassRule
-	public static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:14.2")
+	@Container
+	private static final PostgreSQLContainer postgresqlContainer = new PostgreSQLContainer("postgres:14.2")
 		.withDatabaseName("postgres")
 		.withUsername("postgres")
 		.withPassword("postgres");
 
-	static class Initializer
-		implements ApplicationContextInitializer<ConfigurableApplicationContext>
-	{
-		public void initialize(final ConfigurableApplicationContext configurableApplicationContext) {
-			TestPropertyValues.of(
-				"spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
-				"spring.datasource.username=" + postgreSQLContainer.getUsername(),
-				"spring.datasource.password=" + postgreSQLContainer.getPassword()
-			).applyTo(configurableApplicationContext.getEnvironment());
-		}
+	@DynamicPropertySource
+	static void properties(DynamicPropertyRegistry registry) throws InterruptedException {
+		final String s = "jdbc:postgresql://"+ postgresqlContainer.getHost() +":"+ postgresqlContainer.getMappedPort(5432) + "/";
+		registry.add("spring.datasource.url", () -> s);
 	}
 
 	@Test
