@@ -26,7 +26,7 @@
    curl --location --request GET 'http://localhost:8080/stock/shop/1' --header 'version: 1'
    ```
 6. Make a PATCH request
-   1. Stock : 
+   1. Stock (replace all the stock, throw Exception if quantity > 30) : 
    ```
    curl --location --request PATCH 'http://localhost:8080/stock/shop/1/full' \
       --header 'version: 1' \
