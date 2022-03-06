@@ -54,7 +54,9 @@ public class StockCoreImpl
   }
 
   /**
-   * Update only if shop and shoe exists.
+   * Update only if shop exist.
+   * Remove all stock and replace by new one.
+   * New stock is created only if shoe exist.
    */
   @Override
   public void patch(final Long shopId, final StocksUpdate stocksUpdate)
@@ -68,6 +70,7 @@ public class StockCoreImpl
         throw new TooMuchShoesException("Too much shoes for Shop " + shopId);
       }
       List<StockEntity> newStock = stocksUpdate.getStocks().stream().map(stockUpdate -> {
+        // If shoe exist, add to new stock.
         Optional<ShoeEntity> shoeEntityOptional = shoeRepository.findById(stockUpdate.getShoeId());
         if (shoeEntityOptional.isPresent()) {
           StockEntity stockEntity = new StockEntity();
