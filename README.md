@@ -27,7 +27,7 @@
 1. Install docker-compose https://docs.docker.com/compose/install/
 2. Make sure the SQL files are readable by docker-compose : `chmod 664 sql/*`
 3. Start postgres db `docker-compose up`
-4. Start application 
+4. Start application (java 17 might be needed)
 ```
 mvn clean package && java -jar controller/target/controller-1.0.jar
 ```
