@@ -61,3 +61,4 @@ mvn clean package && java -jar controller/target/controller-1.0.jar
 - Unit tests, especially for the service StockCoreImpl.
 - Data validation on incoming request.
 - Another PATCH endpoint with partial update.
+- In PATCH, throw Exception if shoe or shop does not exist
