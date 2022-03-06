@@ -15,7 +15,7 @@
 ```
 mvn clean package && java -jar controller/target/controller-1.0.jar
 ```
-6. Make a GET request 
+5. Make a GET request 
    1. Shop : 
    ```
    curl --location --request GET 'http://localhost:8080/shop/search?name=DECATHLON NANTES' --header 'version: 1'
@@ -28,7 +28,7 @@ mvn clean package && java -jar controller/target/controller-1.0.jar
    ```
    curl --location --request GET 'http://localhost:8080/stock/shop/1' --header 'version: 1'
    ```
-7. Make a PATCH request
+6. Make a PATCH request
    1. Stock (replace all the stock, throw Exception if quantity > 30) : 
    ```
    curl --location --request PATCH 'http://localhost:8080/stock/shop/1/full' \
@@ -61,7 +61,3 @@ mvn clean package && java -jar controller/target/controller-1.0.jar
 - Unit tests, especially for the service StockCoreImpl.
 - Data validation on incoming request.
 - Another PATCH endpoint with partial update.
-
-# Suggestion
-- Update dependencies (spring boot)
-- Update java version.
