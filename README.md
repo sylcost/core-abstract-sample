@@ -19,7 +19,9 @@
    1. DB can be accessed at jdbc:postgresql://localhost:5432/
    2. username : postgres
    3. password : postgres
-4. The PATCH for stock replace all the stock of the shop.
+4. 2 PATCH methods :
+   1. Full : replace all the stock of the shop.
+   2. Unitary : add or replace the stock for the given shoe.
 5. Tests can be run with `mvn clean test`
 
 # How to
@@ -45,7 +47,7 @@ mvn clean package && java -jar controller/target/controller-1.0.jar
    curl --location --request GET 'http://localhost:8080/stock/shop/1' --header 'version: 1'
    ```
 6. Make a PATCH request
-   1. Stock (replace all the stock, throw Exception if quantity > 30) : `/stock/shop/{shopId}`
+   1. Full (replace all the stock, throw Exception if quantity > 30) : `/stock/shop/{shopId}`
    ```
    curl --location --request PATCH 'http://localhost:8080/stock/shop/1/full' \
       --header 'version: 1' \
@@ -71,10 +73,19 @@ mvn clean package && java -jar controller/target/controller-1.0.jar
       ]
       }'
    ```
+   2. Unitary (add or replace the quantity of one shoe, throw exception if quantity > 30)
+   ```
+   curl --location --request PATCH 'http://localhost:8080/stock/shop/1/unitary' \
+   --header 'version: 1' \
+   --header 'Content-Type: application/json' \
+   --data-raw '{
+       "shoeId": 9,
+       "quantity": 5
+   }'
+   ```
 
 
 # TODO / missing features
-- Unit tests, especially for the service StockCoreImpl.
+- Test for unitary patch.
 - Data validation on incoming request.
-- Another PATCH endpoint with partial update.
 - In PATCH, throw Exception if shoe or shop does not exist

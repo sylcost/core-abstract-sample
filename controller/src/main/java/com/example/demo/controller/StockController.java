@@ -34,13 +34,23 @@ public class StockController
   @PatchMapping(path= "/shop/{shopId}/full")
   @ResponseStatus(value = HttpStatus.NO_CONTENT)
   @Transactional
-  public void patch(@RequestHeader final Integer version,
+  public void patchFull(@RequestHeader final Integer version,
                     @PathVariable(name="shopId") final Long shopId,
                     @RequestBody final StocksUpdate stocksUpdate)
       throws TooMuchShoesException
   {
-    stockFacade.get(version).patch(shopId, stocksUpdate);
+    stockFacade.get(version).patchFull(shopId, stocksUpdate);
   }
 
+  @PatchMapping(path= "/shop/{shopId}/unitary")
+  @ResponseStatus(value = HttpStatus.NO_CONTENT)
+  @Transactional
+  public void patchUnitary(@RequestHeader final Integer version,
+                    @PathVariable(name="shopId") final Long shopId,
+                    @RequestBody final StocksUpdate.StockUpdate stockUpdate)
+      throws TooMuchShoesException
+  {
+    stockFacade.get(version).patchUnitary(shopId, stockUpdate);
+  }
 
 }

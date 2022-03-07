@@ -7,6 +7,8 @@ import com.example.demo.dto.out.Stock;
 public interface StockCore
 {
   Stock get(Long shopId);
-  void patch(Long shopId, StocksUpdate stocksUpdate)
+  void patchFull(Long shopId, StocksUpdate stocksUpdate)
 	  throws TooMuchShoesException;
+	void patchUnitary(Long shopId, StocksUpdate.StockUpdate stockUpdate)
+		throws TooMuchShoesException;
 }
