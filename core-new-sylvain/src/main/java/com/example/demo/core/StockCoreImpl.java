@@ -99,7 +99,7 @@ public class StockCoreImpl
     shopRepository.findById(shopId).ifPresent(shopEntity -> shoeRepository.findById(stockUpdate.getShoeId()).ifPresent(shoeEntity -> {
       List<StockEntity> currentStock = stockRepository.findByShop(shopEntity);
       final AtomicLong oldQuantity = new AtomicLong(0);
-      // Check if the new quantity will exceed the 30 shoes limit.
+
       if ( !CollectionUtils.isEmpty(currentStock) ) {
         currentStock.stream().filter(stockEntity -> Objects.equals(
             stockEntity.getShoe().getId(), stockUpdate.getShoeId())).findFirst().ifPresent(stock -> {
