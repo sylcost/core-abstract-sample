@@ -47,7 +47,7 @@ mvn clean package && java -jar controller/target/controller-1.0.jar
    curl --location --request GET 'http://localhost:8080/stock/shop/1' --header 'version: 1'
    ```
 6. Make a PATCH request
-   1. Full (replace all the stock, throw Exception if quantity > 30) : `/stock/shop/{shopId}`
+   1. Full (replace all the stock, throw Exception if quantity > 30) : `/stock/shop/{shopId}/full`
    ```
    curl --location --request PATCH 'http://localhost:8080/stock/shop/1/full' \
       --header 'version: 1' \
@@ -73,7 +73,7 @@ mvn clean package && java -jar controller/target/controller-1.0.jar
       ]
       }'
    ```
-   2. Unitary (add or replace the quantity of one shoe, throw exception if quantity > 30)
+   2. Unitary (add or replace the quantity of one shoe, throw exception if quantity > 30) : `/stock/shop/{shopId}/unitary`
    ```
    curl --location --request PATCH 'http://localhost:8080/stock/shop/1/unitary' \
    --header 'version: 1' \
