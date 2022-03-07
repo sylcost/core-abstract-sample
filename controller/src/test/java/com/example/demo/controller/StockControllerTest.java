@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,40 +50,57 @@ public class StockControllerTest
 	}
 
 	@Test
-	public void testPatch()
+	public void testGetAndPatch()
 		throws Exception
 	{
 		ResultActions resultActions1 = mockMvc.perform(get("/stock/shop/1")
 			.header("version", 1));
 		resultActions1.andExpect(status().is2xxSuccessful());
 		resultActions1.andExpect(jsonPath("$.shoes.length()", equalTo(3)));
+		resultActions1.andExpect(jsonPath("$.state", equalTo("SOME")));
+
 		StocksUpdate stocksUpdate1 = new StocksUpdate();
 		StocksUpdate.StockUpdate stockUpdate11 = new StocksUpdate.StockUpdate(1L, 10L);
-		StocksUpdate.StockUpdate stockUpdate12 = new StocksUpdate.StockUpdate(2L, 3L);
+		StocksUpdate.StockUpdate stockUpdate12 = new StocksUpdate.StockUpdate(2L, 20L);
 		stocksUpdate1.getStocks().addAll(Arrays.asList(stockUpdate11, stockUpdate12));
-
 		ResultActions resultActions2 = mockMvc.perform(patch("/stock/shop/1/full")
 			.header("version", 1)
 			.content(asJsonString(stocksUpdate1))
 			.contentType(MediaType.APPLICATION_JSON));
 		resultActions2.andExpect(status().is2xxSuccessful());
+
 		ResultActions resultActions3 = mockMvc.perform(get("/stock/shop/1")
 			.header("version", 1));
 		resultActions3.andExpect(status().is2xxSuccessful());
 		resultActions3.andExpect(jsonPath("$.shoes.length()", equalTo(2)));
+		resultActions3.andExpect(jsonPath("$.state", equalTo("FULL")));
 
 		StocksUpdate stocksUpdate2 = new StocksUpdate();
 		StocksUpdate.StockUpdate stockUpdate21 = new StocksUpdate.StockUpdate(1L, 10L);
 		StocksUpdate.StockUpdate stockUpdate22 = new StocksUpdate.StockUpdate(2L, 15L);
 		StocksUpdate.StockUpdate stockUpdate23 = new StocksUpdate.StockUpdate(2L, 20L);
 		stocksUpdate2.getStocks().addAll(Arrays.asList(stockUpdate21, stockUpdate22, stockUpdate23));
-
 		ResultActions resultActions4 = mockMvc.perform(patch("/stock/shop/1/full")
 			.header("version", 1)
 			.content(asJsonString(stocksUpdate2))
 			.contentType(MediaType.APPLICATION_JSON));
 		resultActions4.andExpect(status().is4xxClientError());
 		resultActions4.andExpect(result -> assertTrue(result.getResolvedException() instanceof TooMuchShoesException));
+
+		StocksUpdate stocksUpdate3 = new StocksUpdate();
+		StocksUpdate.StockUpdate stockUpdate31 = new StocksUpdate.StockUpdate(1L, 0L);
+		stocksUpdate3.getStocks().addAll(List.of(stockUpdate31));
+		ResultActions resultActions5 = mockMvc.perform(patch("/stock/shop/1/full")
+			.header("version", 1)
+			.content(asJsonString(stocksUpdate3))
+			.contentType(MediaType.APPLICATION_JSON));
+		resultActions5.andExpect(status().is2xxSuccessful());
+
+		ResultActions resultActions6 = mockMvc.perform(get("/stock/shop/1")
+			.header("version", 1));
+		resultActions6.andExpect(status().is2xxSuccessful());
+		resultActions6.andExpect(jsonPath("$.shoes.length()", equalTo(1)));
+		resultActions6.andExpect(jsonPath("$.state", equalTo("EMPTY")));
 	}
 
 
