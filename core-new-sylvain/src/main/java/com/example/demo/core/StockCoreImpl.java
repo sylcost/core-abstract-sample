@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
 import com.example.demo.dto.enums.StockState;
 import com.example.demo.dto.exceptions.TooMuchShoesException;
@@ -25,6 +26,9 @@ public class StockCoreImpl
   private final ShopRepository shopRepository;
   private final ShoeRepository shoeRepository;
   private final StockRepository stockRepository;
+
+  @Value("${shoes.limit}")
+  private Long shoesLimit;
 
   @Autowired
   public StockCoreImpl(final ShopRepository shopRepository,
@@ -65,7 +69,7 @@ public class StockCoreImpl
   {
     shopRepository.findById(shopId).ifPresent(shopEntity -> {
         Long totalQuantity = stocksUpdate.getStocks().stream().map(StocksUpdate.StockUpdate::getQuantity).reduce(0L, Long::sum);
-        if (totalQuantity > 30) {
+        if (totalQuantity > shoesLimit) {
           throw new TooMuchShoesException("Too much shoes for Shop " + shopId);
         }
         List<StockEntity> newStock = stocksUpdate.getStocks().stream().map(stockUpdate -> {
@@ -103,7 +107,7 @@ public class StockCoreImpl
         });
       }
 
-      if (getTotalQuantity(currentStock) - oldQuantity.get() + stockUpdate.getQuantity() > 30) {
+      if (getTotalQuantity(currentStock) - oldQuantity.get() + stockUpdate.getQuantity() > shoesLimit) {
         throw new TooMuchShoesException("Too much shoes for shop "+shopEntity.getId());
       }
 
