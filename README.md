@@ -22,7 +22,7 @@
 4. 2 PATCH methods :
    1. Full : replace all the stock of the shop.
    2. Unitary : add or replace the stock for the given shoe.
-5. Tests can be run with `mvn clean test`
+5. Tests can be run with `mvn clean install`
 
 # How to
 
