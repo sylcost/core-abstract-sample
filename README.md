@@ -89,3 +89,4 @@ mvn clean package && java -jar controller/target/controller-1.0.jar
 - Test for unitary patch.
 - Data validation on incoming request.
 - In PATCH, throw Exception if shoe or shop does not exist
+- Use records
